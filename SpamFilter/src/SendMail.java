@@ -69,8 +69,7 @@ public class SendMail {
 
 
     public void sendMessages(int numOfMessages) throws MessagingException {
-        StringBuilder subj = new StringBuilder(subject.toString());
-        StringBuilder content = new StringBuilder(text.toString());
+        int addedAt = -1;
         for (int i = 0; i < numOfMessages; i++) {
             String sender = getSender();
             String receiver = getReceiver();
@@ -82,21 +81,29 @@ public class SendMail {
                 place = whereToAddPhrase();
             }
             if (place == 0){
-                content.append(" ").append(filter.getPhrase(phrase));
+                addedAt = text.length();
+                text.append(" ").append(filter.getPhrase(phrase));
             }
             else if (place == 1){
-                subj.append(" ").append(filter.getPhrase(phrase));
+                addedAt = subject.length();
+                subject.append(" ").append(filter.getPhrase(phrase));
             }
             try {
                 MimeMessage email = new MimeMessage(mailSession);
                 email.setFrom(new InternetAddress(sender));
                 email.addRecipient(Message.RecipientType.TO,new InternetAddress(receiver));
-                email.setSubject(subj.toString());
-                email.setText(content.toString());
+                email.setSubject(subject.toString());
+                email.setText(text.toString());
                 Transport transport = mailSession.getTransport("smtp");
                 transport.connect("smtp.gmail.com", sender, password);
                 transport.sendMessage(email, email.getAllRecipients());
                 transport.close();
+                if (place == 0){
+                    text.delete(addedAt, text.length());
+                }
+                else if (place == 1){
+                    subject.delete(addedAt, subject.length());
+                }
             }
             catch (Exception e) {
                 throw new MessagingException(e.getMessage());
@@ -125,7 +132,7 @@ public class SendMail {
         int size = filter.getSize();
         double ifToAdd = Math.random();
         //don't add spam phrase
-        if (ifToAdd < 0.6){
+        if (ifToAdd > 0.6){
             return -1;
         }
         //add a spam phrase with the index below

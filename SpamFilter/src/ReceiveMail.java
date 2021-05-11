@@ -44,26 +44,20 @@ public class ReceiveMail {
         Pair p = receivers.get(index);
         emailStore.connect(hostVal,receiver, password);
         Folder emailFolder = emailStore.getFolder("INBOX");
-//        Folder spamFolder = emailFolder.getFolder("SPAM");
         emailFolder.open(Folder.READ_WRITE);
-//        spamFolder.open(Folder.READ_WRITE);
         Message[] messages = emailFolder.getMessages();
         for (Message message : messages) {
             if (filter.isSpam((MimeMessage) message)) {
+                Flags spam = new Flags("SPAM");
+                message.setFlags(spam, true);
                 int count = p.getSecond() + 1;
                 receivers.get(index).setSecond(count);
-//                moveMessageToSpam(message, emailFolder, spamFolder);
+//                Message[] arr = new Message[1];
+//                arr[0] = message;
+                //flags the spam message
+//                emailFolder.setFlags(arr,new Flags(Flags.Flag.FLAGGED), true);
             }
         }
         emailFolder.close(false);
-//        spamFolder.close(false);
     }
-
-//    public void moveMessageToSpam(Message message, Folder from, Folder to) throws MessagingException {
-//        Message[] messages = new Message[1];
-//        messages[0] = message;
-//        from.copyMessages(messages,to);
-//        from.setFlags(messages,new Flags(Flags.Flag.DELETED), true);
-//    }
-
 }
