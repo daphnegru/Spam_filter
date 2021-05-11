@@ -132,7 +132,7 @@ public class SendMail {
         int size = filter.getSize();
         double ifToAdd = Math.random();
         //don't add spam phrase
-        if (ifToAdd > 0.6){
+        if (ifToAdd < 0.6){
             return -1;
         }
         //add a spam phrase with the index below

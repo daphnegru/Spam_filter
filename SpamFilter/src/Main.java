@@ -14,7 +14,7 @@ public class Main {
         sender.init(senders,receivers,args[3],args[4]);
         ReceiveMail receiver = ReceiveMail.getInstance();
         receiver.init(receivers);
-        sender.sendMessages(3);
+        sender.sendMessages(1);
         for (Map.Entry<Integer, Pair> entry : receivers.entrySet()){
             receiver.getMessages(entry.getKey(), entry.getValue().getFirst());
         }

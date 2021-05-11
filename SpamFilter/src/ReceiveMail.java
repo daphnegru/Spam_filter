@@ -48,14 +48,11 @@ public class ReceiveMail {
         Message[] messages = emailFolder.getMessages();
         for (Message message : messages) {
             if (filter.isSpam((MimeMessage) message)) {
+                //set flag as spam mail
                 Flags spam = new Flags("SPAM");
                 message.setFlags(spam, true);
                 int count = p.getSecond() + 1;
                 receivers.get(index).setSecond(count);
-//                Message[] arr = new Message[1];
-//                arr[0] = message;
-                //flags the spam message
-//                emailFolder.setFlags(arr,new Flags(Flags.Flag.FLAGGED), true);
             }
         }
         emailFolder.close(false);
