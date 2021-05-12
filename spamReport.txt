@@ -1,2 +1,2 @@
 Admin's spam report:
-user spamfilterreceiver1@gmail.com got 1 spam mails
+user spamfilterreceiver1@gmail.com got 3 spam mails

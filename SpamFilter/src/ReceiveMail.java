@@ -10,16 +10,16 @@ import java.util.Properties;
 public class ReceiveMail {
 
     private Map<Integer, Pair> receivers;
-//    private static MimeMessage email;
     private final Filter filter;
     private static final String password = "spamFilterPassword1!";
     private static final String hostVal = "pop.gmail.com";
     private POP3Store emailStore;
+    private Flags spam;
 
     public ReceiveMail(){
         receivers = new HashMap<>();
         filter = Filter.getInstance();
-
+        spam = new Flags("SPAM");
     }
 
     private static class SingletonHolder{
@@ -49,7 +49,6 @@ public class ReceiveMail {
         for (Message message : messages) {
             if (filter.isSpam((MimeMessage) message)) {
                 //set flag as spam mail
-                Flags spam = new Flags("SPAM");
                 message.setFlags(spam, true);
                 int count = p.getSecond() + 1;
                 receivers.get(index).setSecond(count);
