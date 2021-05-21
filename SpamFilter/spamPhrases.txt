@@ -1,4 +1,4 @@
-(test)
+(oneWordSpam)
 (Nigerian)[\s]+(prince)
 (Act)[\s]+(now)
 (Call)[\s]+(free)
