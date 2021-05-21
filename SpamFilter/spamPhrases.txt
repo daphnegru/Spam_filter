@@ -1,4 +1,5 @@
-nigerian prince
-Act now
-Call free
-Order now
+(test)
+(Nigerian)[\s]+(prince)
+(Act)[\s]+(now)
+(Call)[\s]+(free)
+(Order)[\s]+(now)

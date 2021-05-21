@@ -55,5 +55,6 @@ public class ReceiveMail {
             }
         }
         emailFolder.close(false);
+        emailStore.close();
     }
 }

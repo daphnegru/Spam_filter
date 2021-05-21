@@ -1,1 +1,2 @@
 spamfilterreceiver1@gmail.com
+spamfilterreceiver2@gmail.com

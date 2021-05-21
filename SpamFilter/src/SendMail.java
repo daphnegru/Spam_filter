@@ -82,11 +82,13 @@ public class SendMail {
             }
             if (place == 0){
                 addedAt = text.length();
-                text.append(" ").append(filter.getPhrase(phrase));
+                String converted = regexToString(filter.getPhrase(phrase));
+                text.append(" ").append(converted);
             }
             else if (place == 1){
                 addedAt = subject.length();
-                subject.append(" ").append(filter.getPhrase(phrase));
+                String converted = regexToString(filter.getPhrase(phrase));
+                subject.append(" ").append(converted);
             }
             try {
                 MimeMessage email = new MimeMessage(mailSession);
@@ -149,5 +151,19 @@ public class SendMail {
         }
         //add to the text
         return 0;
+    }
+
+    //converts the regex to a string with a random amount of spaces (at least one though)
+    public String regexToString(String regex){
+        double rand = Math.random();
+        int numOfSpaces = (int)(rand*10);
+        numOfSpaces = Math.max(numOfSpaces,1);
+        regex = regex.replace("(","");
+        regex = regex.replace(")","");
+        String spaces = String.join("", Collections.nCopies(numOfSpaces, " "));
+        if (regex.contains("[\\s]+")) {
+            regex = regex.replace("[\\s]+", spaces);
+        }
+        return regex;
     }
 }
