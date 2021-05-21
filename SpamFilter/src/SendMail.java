@@ -153,7 +153,7 @@ public class SendMail {
         return 0;
     }
 
-    //converts the regex to a string with a random amount of spaces (at least one though)
+    //this function converts the regex to a string with a random amount of spaces (at least one though)
     public String regexToString(String regex){
         double rand = Math.random();
         int numOfSpaces = (int)(rand*10);
