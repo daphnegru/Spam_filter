@@ -155,12 +155,16 @@ public class SendMail {
 
     //this function converts the regex to a string with a random amount of spaces (at least one though)
     public String regexToString(String regex){
+        //calculates the number of spaces to insert into the phrase where spaces are do
         double rand = Math.random();
         int numOfSpaces = (int)(rand*10);
+        //makes sure that there is at least one space
         numOfSpaces = Math.max(numOfSpaces,1);
+        //removes the parentheses surrounding the words in regex
         regex = regex.replace("(","");
         regex = regex.replace(")","");
         String spaces = String.join("", Collections.nCopies(numOfSpaces, " "));
+        //switches the symbol of spaces if exists in regex with the random number of spaces
         if (regex.contains("[\\s]+")) {
             regex = regex.replace("[\\s]+", spaces);
         }
