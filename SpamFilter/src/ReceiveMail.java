@@ -14,7 +14,7 @@ public class ReceiveMail {
     private static final String password = "spamFilterPassword1!";
     private static final String hostVal = "pop.gmail.com";
     private POP3Store emailStore;
-    private Flags spam;
+    private final Flags spam;
 
     public ReceiveMail(){
         receivers = new HashMap<>();
