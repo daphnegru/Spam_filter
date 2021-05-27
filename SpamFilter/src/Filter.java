@@ -23,7 +23,7 @@ public class Filter {
         return SingletonHolder.filter;
     }
 
-    //initiates the list of spam phrases, allows to add phrases later
+    //this function initiates all the parameters needed in the class
     public void init(String filePath){
         BufferedReader buffer;
         int index = spamWords.size();
@@ -31,6 +31,7 @@ public class Filter {
             buffer = new BufferedReader(new FileReader(filePath));
             String line;
             while ((line = buffer.readLine()) != null){
+                //adds the spam phrase into the hash map
                 spamWords.put(index, Pattern.compile(line, Pattern.CASE_INSENSITIVE));
                 index++;
             }
@@ -53,7 +54,7 @@ public class Filter {
         return spamWords.get(index).toString();
     }
 
-    //given an email message checks whether the subject line or the content has one of the spam words or phrases
+    //this function checks whether a given email message has a spam phrase in the subject line or in its content
     public boolean isSpam(MimeMessage message) throws MessagingException, IOException {
         String subject = message.getSubject();
         String content = message.getContent().toString();

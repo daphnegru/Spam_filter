@@ -30,6 +30,7 @@ public class ReceiveMail {
         return SingletonHolder.receiver;
     }
 
+    //this function initiates all the parameters needed in the class
     public void init(HashMap<Integer, Pair> receives) throws NoSuchProviderException {
         receivers = receives;
         Properties serverProperties = System.getProperties();
@@ -40,6 +41,7 @@ public class ReceiveMail {
         emailStore = (POP3Store) mailSession.getStore("pop3s");
     }
 
+    //this function gets the emails each user got
     public void getMessages(int index, String receiver) throws MessagingException, IOException {
         Pair p = receivers.get(index);
         emailStore.connect(hostVal,receiver, password);
@@ -47,6 +49,7 @@ public class ReceiveMail {
         emailFolder.open(Folder.READ_WRITE);
         Message[] messages = emailFolder.getMessages();
         for (Message message : messages) {
+            //checks for each email whether or not it is a spam email
             if (filter.isSpam((MimeMessage) message)) {
                 //set flag as spam mail
                 message.setFlags(spam, true);

@@ -8,14 +8,17 @@ public class Pair {
         this.second = second;
     }
 
+    //gets the first of the pair
     public String getFirst(){
         return this.first;
     }
 
+    //gets the second of the pair
     public Integer getSecond(){
         return this.second;
     }
 
+    //sets the second of the pair
     public void setSecond(int count){
         this.second = count;
     }

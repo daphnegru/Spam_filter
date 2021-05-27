@@ -35,6 +35,7 @@ public class SendMail {
         return SingletonHolder.sender;
     }
 
+    //this function initiates all the parameters needed in the class
     public void init(HashMap<Integer,String> sends, HashMap<Integer, Pair> receives, String subjectFile, String textFile) throws FileNotFoundException {
         senders = sends;
         receivers = receives;
@@ -49,6 +50,7 @@ public class SendMail {
         getText(textFile);
     }
 
+    //this function gets the subject line from the given file
     public void getSubject(String filePath) throws FileNotFoundException {
         File subFile = new File(filePath);
         Scanner subSC = new Scanner(subFile);
@@ -58,6 +60,7 @@ public class SendMail {
         subject.deleteCharAt(subject.lastIndexOf(" "));
     }
 
+    //this function gets the email's text from the given file
     public void getText(String filePath) throws FileNotFoundException {
         File textFile = new File(filePath);
         Scanner textSC = new Scanner(textFile);
@@ -68,6 +71,7 @@ public class SendMail {
     }
 
 
+    //this function sends the emails
     public void sendMessages(int numOfMessages) throws MessagingException {
         int addedAt = -1;
         for (int i = 0; i < numOfMessages; i++) {
@@ -75,11 +79,14 @@ public class SendMail {
             String receiver = getReceiver();
             int phrase = spamPhraseToAdd();
             int place;
+            //no spam phrase to add to the email
             if (phrase < 0) {
                 place = -1;
             } else {
+                //gets the place to add the spam phrase
                 place = whereToAddPhrase();
             }
+            //adds the spam phrase where needed
             if (place == 0){
                 addedAt = text.length();
                 String converted = regexToString(filter.getPhrase(phrase));
@@ -91,6 +98,7 @@ public class SendMail {
                 subject.append(" ").append(converted);
             }
             try {
+                //sends the email
                 MimeMessage email = new MimeMessage(mailSession);
                 email.setFrom(new InternetAddress(sender));
                 email.addRecipient(Message.RecipientType.TO,new InternetAddress(receiver));
@@ -155,17 +163,29 @@ public class SendMail {
 
     //this function converts the regex to a string with a random amount of spaces (at least one though)
     public String regexToString(String regex){
-        //calculates the number of spaces to insert into the phrase where spaces are do
-        double rand = Math.random();
-        int numOfSpaces = (int)(rand*10);
-        //makes sure that there is at least one space
-        numOfSpaces = Math.max(numOfSpaces,1);
+//        //calculates the number of spaces to insert into the phrase where spaces are do
+//        double rand = Math.random();
+//        int numOfSpaces = (int)(rand*10);
+//        //makes sure that there is at least one space
+//        numOfSpaces = Math.max(numOfSpaces,1);
+//        //removes the parentheses surrounding the words in regex
+//        regex = regex.replace("(","");
+//        regex = regex.replace(")","");
+//        String spaces = String.join("", Collections.nCopies(numOfSpaces, " "));
+//        //switches the symbol of spaces if exists in regex with the random number of spaces
+//        if (regex.contains("[\\s]+")) {
+//            regex = regex.replace("[\\s]+", spaces);
+//        }
         //removes the parentheses surrounding the words in regex
         regex = regex.replace("(","");
         regex = regex.replace(")","");
-        String spaces = String.join("", Collections.nCopies(numOfSpaces, " "));
-        //switches the symbol of spaces if exists in regex with the random number of spaces
-        if (regex.contains("[\\s]+")) {
+        //checks if there should be at least one space in the phrase
+        if (regex.contains("[\\s]+")){
+            //calculates the number of spaces to insert into the phrase where spaces are do, at random
+            double rand = Math.random();
+            int numOfSpaces = (int)(rand*10);
+            numOfSpaces = Math.max(numOfSpaces,1);
+            String spaces = String.join("", Collections.nCopies(numOfSpaces, " "));
             regex = regex.replace("[\\s]+", spaces);
         }
         return regex;

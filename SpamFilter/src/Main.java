@@ -14,13 +14,14 @@ public class Main {
         sender.init(senders,receivers,args[3],args[4]);
         ReceiveMail receiver = ReceiveMail.getInstance();
         receiver.init(receivers);
-        sender.sendMessages(10);
+        sender.sendMessages(5);
         for (Map.Entry<Integer, Pair> entry : receivers.entrySet()){
             receiver.getMessages(entry.getKey(), entry.getValue().getFirst());
         }
         createReport(receivers);
     }
 
+    //this function gets the list of senders from a given file
     public static void getSenders(String filePath, HashMap<Integer,String> senders){
         BufferedReader buffer;
         int index = 0;
@@ -37,6 +38,7 @@ public class Main {
         }
     }
 
+    //this function gets the list of receivers from a given file
     public static void getReceivers(String filePath, HashMap<Integer, Pair> receivers){
         BufferedReader buffer;
         int index = 0;
@@ -54,6 +56,7 @@ public class Main {
         }
     }
 
+    //this function creates the report for the admin user
     public static void createReport(HashMap<Integer, Pair> receivers) {
         File report = new File("spamReport.txt");
 
