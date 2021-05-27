@@ -1,8 +1,6 @@
 # topics_in_network_security
-This is a mini project in the course "Topics in Network Security"
+This is a mini project in the course "Topics in Network Security".
 
-In this project I created a spam filter that gets an email message and using statistics chooses whether to add a spam phrase, and if so where to add it (subject or content).
+The spam filter in this project uses regexes in order to find whether a spam phrase was inserted to the subject or the text of the email.
 
-After sending all the emails there is a report generated in order for the admin user to know how many spam mails each user in their organization got.
-
-In this project I created a spam filter which checks whether or not an email subject or body has a spam phrase in it.
+At the end of checking all the emails received a report is generated informing the admin how many spam mails each user got.
