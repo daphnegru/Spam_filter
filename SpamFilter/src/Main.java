@@ -14,10 +14,13 @@ public class Main {
         sender.init(senders,receivers,args[3],args[4]);
         ReceiveMail receiver = ReceiveMail.getInstance();
         receiver.init(receivers);
+        //sends the amount of chosen mails
         sender.sendMessages(10);
+        //gets the amount of spam mails each user got
         for (Map.Entry<Integer, Pair> entry : receivers.entrySet()){
             receiver.getMessages(entry.getKey(), entry.getValue().getFirst());
         }
+        //creates the admin report
         createReport(receivers);
     }
 
