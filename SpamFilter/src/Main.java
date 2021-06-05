@@ -59,7 +59,6 @@ public class Main {
     //this function creates the report for the admin user
     public static void createReport(HashMap<Integer, Pair> receivers) {
         File report = new File("spamReport.txt");
-
         try {
             FileWriter output = new FileWriter(report);
             output.write("Admin's spam report:\n");

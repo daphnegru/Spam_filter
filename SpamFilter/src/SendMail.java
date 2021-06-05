@@ -17,14 +17,14 @@ public class SendMail {
     private final Filter filter;
     private static final String password = "spamFilterPassword1!";
     private final StringBuilder subject;
-    private final StringBuilder text;
+    private final StringBuilder content;
 
     private SendMail(){
         senders = new HashMap<>();
         receivers = new HashMap<>();
         filter = Filter.getInstance();
         subject = new StringBuilder();
-        text = new StringBuilder();
+        content = new StringBuilder();
     }
 
     private static class SingletonHolder{
@@ -36,7 +36,7 @@ public class SendMail {
     }
 
     //this function initiates all the parameters needed in the class
-    public void init(HashMap<Integer,String> sends, HashMap<Integer, Pair> receives, String subjectFile, String textFile) throws FileNotFoundException {
+    public void init(HashMap<Integer,String> sends, HashMap<Integer, Pair> receives, String subjectFile, String contentFile) throws FileNotFoundException {
         senders = sends;
         receivers = receives;
         Properties serverProperties;
@@ -47,7 +47,7 @@ public class SendMail {
         mailSession = Session.getDefaultInstance(serverProperties);
         mailSession.getProperties().put("mail.smtp.ssl.trust", "smtp.gmail.com");
         getSubject(subjectFile);
-        getText(textFile);
+        getContent(contentFile);
     }
 
     //this function gets the subject line from the given file
@@ -60,14 +60,14 @@ public class SendMail {
         subject.deleteCharAt(subject.lastIndexOf(" "));
     }
 
-    //this function gets the email's text from the given file
-    public void getText(String filePath) throws FileNotFoundException {
-        File textFile = new File(filePath);
-        Scanner textSC = new Scanner(textFile);
-        while (textSC.hasNextLine()) {
-            text.append(textSC.nextLine()).append(" ");
+    //this function gets the email's content from the given file
+    public void getContent(String filePath) throws FileNotFoundException {
+        File contentFile = new File(filePath);
+        Scanner contentSC = new Scanner(contentFile);
+        while (contentSC.hasNextLine()) {
+            content.append(contentSC.nextLine()).append(" ");
         }
-        text.deleteCharAt(text.lastIndexOf(" "));
+        content.deleteCharAt(content.lastIndexOf(" "));
     }
 
 
@@ -88,9 +88,9 @@ public class SendMail {
             }
             //adds the spam phrase where needed
             if (place == 0){
-                addedAt = text.length();
+                addedAt = content.length();
                 String converted = regexToString(filter.getPhrase(phrase));
-                text.append(" ").append(converted);
+                content.append(" ").append(converted);
             }
             else if (place == 1){
                 addedAt = subject.length();
@@ -103,13 +103,13 @@ public class SendMail {
                 email.setFrom(new InternetAddress(sender));
                 email.addRecipient(Message.RecipientType.TO,new InternetAddress(receiver));
                 email.setSubject(subject.toString());
-                email.setText(text.toString());
+                email.setText(content.toString());
                 Transport transport = mailSession.getTransport("smtp");
                 transport.connect("smtp.gmail.com", sender, password);
                 transport.sendMessage(email, email.getAllRecipients());
                 transport.close();
                 if (place == 0){
-                    text.delete(addedAt, text.length());
+                    content.delete(addedAt, content.length());
                 }
                 else if (place == 1){
                     subject.delete(addedAt, subject.length());

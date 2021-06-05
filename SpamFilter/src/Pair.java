@@ -22,5 +22,4 @@ public class Pair {
     public void setSecond(int count){
         this.second = count;
     }
-
 }

@@ -2,8 +2,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import java.util.regex.*;
 
 public class Filter {
@@ -55,7 +55,7 @@ public class Filter {
     }
 
     //this function checks whether a given email message has a spam phrase in the subject line or in its content
-    public boolean isSpam(MimeMessage message) throws MessagingException, IOException {
+    public boolean isSpam(Message message) throws MessagingException, IOException {
         String subject = message.getSubject();
         String content = message.getContent().toString();
         for(Map.Entry<Integer, Pattern> entry: spamWords.entrySet()){

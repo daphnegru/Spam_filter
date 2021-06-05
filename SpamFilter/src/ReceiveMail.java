@@ -1,11 +1,7 @@
 import com.sun.mail.pop3.POP3Store;
-
 import javax.mail.*;
-import javax.mail.internet.MimeMessage;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 public class ReceiveMail {
 
@@ -50,7 +46,7 @@ public class ReceiveMail {
         Message[] messages = emailFolder.getMessages();
         for (Message message : messages) {
             //checks for each email whether or not it is a spam email
-            if (filter.isSpam((MimeMessage) message)) {
+            if (filter.isSpam(message)) {
                 //set flag as spam mail
                 message.setFlags(spam, true);
                 int count = p.getSecond() + 1;
